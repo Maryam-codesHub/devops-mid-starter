@@ -1,0 +1,26 @@
+services:
+  api:
+    image: maryamsana/mid-svc:53732
+    ports:
+      - "9032:5000"
+    environment:
+      STUDENT: "53732"
+      REDIS_HOST: store
+    networks:
+      - backend-53732
+    depends_on:
+      - store
+
+  store:
+    image: redis:alpine
+    command: redis-server --appendonly yes --dir /data
+    volumes:
+      - store-53732:/data
+    networks:
+      - backend-53732
+
+networks:
+  backend-53732:
+
+volumes:
+  store-53732:
